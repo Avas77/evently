@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
 import Dropdown from "./Dropdown";
 import { Textarea } from "../ui/textarea";
+import ControlledField from "./ControlledField";
 
 const EventForm = () => {
   const form = useForm<z.infer<typeof eventSchema>>({
@@ -23,52 +24,40 @@ const EventForm = () => {
         className="flex flex-col gap-5"
       >
         <div className="flex flex-col gap-5 md:flex-row">
-          <FormField
+          <ControlledField
             name="title"
             control={form.control}
-            render={({ field }) => {
-              return (
-                <FormItem className="w-full">
-                  <FormControl>
-                    <Input
-                      placeholder="Event title"
-                      {...field}
-                      className="input-field"
-                    />
-                  </FormControl>
-                </FormItem>
-              );
-            }}
+            renderComponent={(field) => (
+              <Input
+                placeholder="Event title"
+                className="input-field"
+                {...field}
+                value={field.value as string}
+              />
+            )}
           />
-          <FormField
+          <ControlledField
             name="categoryId"
             control={form.control}
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormControl>
-                  <Dropdown
-                    onChangeHandler={field.onChange}
-                    value={field.value}
-                  />
-                </FormControl>
-              </FormItem>
+            renderComponent={(field) => (
+              <Dropdown
+                onChangeHandler={field.onChange}
+                value={field.value as string}
+              />
             )}
           />
         </div>
         <div className="flex flex-col gap-5 md:flex-row">
-          <FormField
+          <ControlledField
             name="description"
             control={form.control}
-            render={({ field }) => (
-              <FormItem {...field} className="w-full">
-                <FormControl className="h-72">
-                  <Textarea
-                    placeholder="Description"
-                    {...field}
-                    className="textarea rounded-2xl"
-                  />
-                </FormControl>
-              </FormItem>
+            renderComponent={(field) => (
+              <Textarea
+                placeholder="Description"
+                {...field}
+                className="textarea rounded-2xl"
+                value={field.value as string}
+              />
             )}
           />
         </div>
