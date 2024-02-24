@@ -26,7 +26,7 @@ const EventForm = () => {
           control={form.control}
           render={({ field }) => {
             return (
-              <FormItem {...field}>
+              <FormItem {...field} className="w-full">
                 <FormControl>
                   <Input
                     placeholder="Event title"
@@ -38,7 +38,20 @@ const EventForm = () => {
             );
           }}
         />
-       <Dropdown />
+        <FormField
+          name="categoryId"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem {...field} className="w-full">
+              <FormControl>
+                <Dropdown
+                  onChangeHandler={field.onChange}
+                  value={field.value}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
       </form>
     </Form>
   );
