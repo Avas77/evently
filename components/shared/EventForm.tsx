@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import { Form } from "../ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { eventSchema } from "@/lib/EventSchema";
@@ -10,6 +10,7 @@ import Dropdown from "./Dropdown";
 import { Textarea } from "../ui/textarea";
 import ControlledField from "./ControlledField";
 import { FileUploader } from "./FileUploader";
+import Image from "next/image";
 
 const EventForm = () => {
   const [files, setFiles] = useState<File[]>([]);
@@ -71,6 +72,28 @@ const EventForm = () => {
                 onFieldChange={field.onChange}
                 setFiles={setFiles}
               />
+            )}
+          />
+        </div>
+        <div className="flex">
+          <ControlledField
+            name="location"
+            control={form.control}
+            renderComponent={(field) => (
+              <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
+                <Image
+                  src="/assets/icons/location-grey.svg"
+                  alt="location"
+                  width={24}
+                  height={24}
+                />
+                <Input
+                  placeholder="Event Location or Online"
+                  {...field}
+                  value={field.value as string}
+                  className="input-field"
+                />
+              </div>
             )}
           />
         </div>
