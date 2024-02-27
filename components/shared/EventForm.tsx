@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -9,9 +9,10 @@ import { Input } from "../ui/input";
 import Dropdown from "./Dropdown";
 import { Textarea } from "../ui/textarea";
 import ControlledField from "./ControlledField";
-import FileUploader from "./FileUploader";
+import { FileUploader } from "./FileUploader";
 
 const EventForm = () => {
+  const [files, setFiles] = useState<File[]>([]);
   const form = useForm<z.infer<typeof eventSchema>>({
     resolver: zodResolver(eventSchema),
   });
@@ -56,7 +57,7 @@ const EventForm = () => {
               <Textarea
                 placeholder="Description"
                 {...field}
-                className="textarea rounded-2xl"
+                className="textarea rounded-2xl h-72 w-full"
                 value={field.value as string}
               />
             )}
@@ -64,7 +65,13 @@ const EventForm = () => {
           <ControlledField
             name="imageUrl"
             control={form.control}
-            renderComponent={(field) => <FileUploader />}
+            renderComponent={(field) => (
+              <FileUploader
+                imageUrl={field.value as string}
+                onFieldChange={field.onChange}
+                setFiles={setFiles}
+              />
+            )}
           />
         </div>
       </form>
