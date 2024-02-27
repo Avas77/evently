@@ -9,6 +9,7 @@ import { Input } from "../ui/input";
 import Dropdown from "./Dropdown";
 import { Textarea } from "../ui/textarea";
 import ControlledField from "./ControlledField";
+import FileUploader from "./FileUploader";
 
 const EventForm = () => {
   const form = useForm<z.infer<typeof eventSchema>>({
@@ -59,6 +60,11 @@ const EventForm = () => {
                 value={field.value as string}
               />
             )}
+          />
+          <ControlledField
+            name="imageUrl"
+            control={form.control}
+            renderComponent={(field) => <FileUploader />}
           />
         </div>
       </form>
