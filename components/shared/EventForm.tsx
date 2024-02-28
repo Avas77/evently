@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import DatePicker from "react-datepicker";
 import { Form } from "../ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -11,6 +12,7 @@ import { Textarea } from "../ui/textarea";
 import ControlledField from "./ControlledField";
 import { FileUploader } from "./FileUploader";
 import Image from "next/image";
+import "react-datepicker/dist/react-datepicker.css";
 
 const EventForm = () => {
   const [files, setFiles] = useState<File[]>([]);
@@ -92,6 +94,34 @@ const EventForm = () => {
                   {...field}
                   value={field.value as string}
                   className="input-field"
+                />
+              </div>
+            )}
+          />
+        </div>
+        <div className="flex flex-col md:flex-row gap-5">
+          <ControlledField
+            name="startDateTime"
+            control={form.control}
+            renderComponent={(field) => (
+              <div className="flex items-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
+                <Image
+                  src="/assets/icons/calendar.svg"
+                  alt="calendar"
+                  width={24}
+                  height={24}
+                  className="filter-grey"
+                />
+                <p className="ml-3 whitespace-nowrap text-grey-600">
+                  Start Date:
+                </p>
+                <DatePicker
+                  selected={field.value as Date}
+                  onChange={(date: Date) => field.onChange(date)}
+                  showTimeSelect
+                  timeInputLabel="Time:"
+                  dateFormat="MM/dd/yyyy h:mm aa"
+                  wrapperClassName="datePiker"
                 />
               </div>
             )}
