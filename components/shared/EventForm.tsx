@@ -121,7 +121,33 @@ const EventForm = () => {
                   showTimeSelect
                   timeInputLabel="Time:"
                   dateFormat="MM/dd/yyyy h:mm aa"
-                  wrapperClassName="datePiker"
+                  wrapperClassName="datePicker"
+                />
+              </div>
+            )}
+          />
+          <ControlledField
+            name="endDateTime"
+            control={form.control}
+            renderComponent={(field) => (
+              <div className="flex items-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
+                <Image
+                  src="/assets/icons/calendar.svg"
+                  alt="calendar"
+                  width={24}
+                  height={24}
+                  className="filter-grey"
+                />
+                <p className="ml-3 whitespace-nowrap text-grey-600">
+                  End Date:
+                </p>
+                <DatePicker
+                  selected={field.value as Date}
+                  onChange={(date: Date) => field.onChange(date)}
+                  showTimeSelect
+                  timeInputLabel="Time:"
+                  dateFormat="MM/dd/yyyy h:mm aa"
+                  wrapperClassName="datePicker"
                 />
               </div>
             )}
