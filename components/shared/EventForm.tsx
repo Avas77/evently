@@ -13,6 +13,7 @@ import ControlledField from "./ControlledField";
 import { FileUploader } from "./FileUploader";
 import Image from "next/image";
 import "react-datepicker/dist/react-datepicker.css";
+import { Checkbox } from "../ui/checkbox";
 
 const EventForm = () => {
   const [files, setFiles] = useState<File[]>([]);
@@ -148,6 +149,50 @@ const EventForm = () => {
                   timeInputLabel="Time:"
                   dateFormat="MM/dd/yyyy h:mm aa"
                   wrapperClassName="datePicker"
+                />
+              </div>
+            )}
+          />
+        </div>
+        <div className="flex flex-col gap-5 md:flex-row">
+          <ControlledField
+            name="price"
+            control={form.control}
+            renderComponent={(field) => (
+              <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
+                <Image
+                  src="/assets/icons/dollar.svg"
+                  alt="Dollar sign"
+                  width={24}
+                  height={24}
+                  className="filter-grey"
+                />
+                <Input
+                  type="number"
+                  {...field}
+                  value={field.value as string}
+                  placeholder="Price"
+                  className="p-regular-16 border-0 bg-grey-50 outline-offset-0 focus:border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                />
+                <ControlledField
+                  name="isFree"
+                  control={form.control}
+                  renderComponent={(field) => (
+                    <div className="flex items-center justify-end">
+                      <label
+                        htmlFor="isFree"
+                        className="whitespace-nowrap pr-3 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      >
+                        Free Ticket
+                      </label>
+                      <Checkbox
+                        id="isFree"
+                        className="mr-2 h-5 w-5 border-2 border-primary-500"
+                        onCheckedChange={field.onChange}
+                        checked={field.value as boolean}
+                      />
+                    </div>
+                  )}
                 />
               </div>
             )}
