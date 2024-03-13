@@ -197,6 +197,26 @@ const EventForm = () => {
               </div>
             )}
           />
+          <ControlledField
+            name="url"
+            control={form.control}
+            renderComponent={(field) => (
+              <div className="flex items-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
+                <Image
+                  src="/assets/icons/link.svg"
+                  alt="link sign"
+                  width={24}
+                  height={24}
+                />
+                <Input
+                  placeholder="URL"
+                  className="input-field"
+                  {...field}
+                  value={field.value as string}
+                />
+              </div>
+            )}
+          />
         </div>
       </form>
     </Form>
