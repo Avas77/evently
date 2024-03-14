@@ -19,6 +19,7 @@ import {
 import { Input } from "../ui/input";
 import { ICategory } from "@/lib/database/models/category.model";
 import { AlertDialogAction } from "@radix-ui/react-alert-dialog";
+import { Button } from "../ui/button";
 
 interface IProps {
   onChangeHandler: () => void;
@@ -67,7 +68,7 @@ const Dropdown = ({ onChangeHandler, value }: IProps) => {
               <AlertDialogAction
                 onClick={() => startTransition(handleAddNewCatgory)}
               >
-                Add
+                <Button>Add</Button>
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
