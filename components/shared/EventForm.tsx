@@ -14,6 +14,7 @@ import { FileUploader } from "./FileUploader";
 import Image from "next/image";
 import "react-datepicker/dist/react-datepicker.css";
 import { Checkbox } from "../ui/checkbox";
+import { Button } from "../ui/button";
 
 const EventForm = () => {
   const [files, setFiles] = useState<File[]>([]);
@@ -21,7 +22,9 @@ const EventForm = () => {
     resolver: zodResolver(eventSchema),
   });
 
-  const handleCreateEvent = () => {};
+  const handleCreateEvent = (values: z.infer<typeof eventSchema>) => {
+    console.log({ values });
+  };
 
   return (
     <Form {...form}>
@@ -218,6 +221,9 @@ const EventForm = () => {
             )}
           />
         </div>
+        <Button size="lg" className="w-full rounded-full" type="submit">
+          Create Event
+        </Button>
       </form>
     </Form>
   );
