@@ -5,10 +5,14 @@ import { connectToDb } from "../database";
 import Category from "../database/models/category.model";
 import { handleError } from "../utils";
 
-export const createEvent = async (event: CreateCategoryParams) => {
+export const createCategory = async ({
+  categoryName,
+}: CreateCategoryParams) => {
   try {
     await connectToDb();
-    const newEvent = await Category.create(event);
+    const newEvent = await Category.create({
+      name: categoryName,
+    });
     return JSON.parse(JSON.stringify(newEvent));
   } catch (error) {
     handleError(error);
