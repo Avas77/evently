@@ -1,4 +1,4 @@
-import React, { startTransition, useState } from "react";
+import React, { startTransition, useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -20,7 +20,7 @@ import { Input } from "../ui/input";
 import { ICategory } from "@/lib/database/models/category.model";
 import { AlertDialogAction } from "@radix-ui/react-alert-dialog";
 import { Button } from "../ui/button";
-import { createCategory } from "@/lib/actions/category.actions";
+import { createCategory, getCategories } from "@/lib/actions/category.actions";
 
 interface IProps {
   onChangeHandler: () => void;
@@ -31,10 +31,18 @@ const Dropdown = ({ onChangeHandler, value }: IProps) => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [newCategory, setNewCategory] = useState("");
 
+  useEffect(() => {
+    getCategories().then((categories: ICategory[]) =>
+      setCategories(categories)
+    );
+  }, []);
+
   const handleAddNewCatgory = () => {
     createCategory({
       categoryName: newCategory.trim(),
-    }).then((category) => setCategories((prev) => [...prev, category]));
+    }).then((category: ICategory) =>
+      setCategories((prev) => [...prev, category])
+    );
   };
 
   return (
