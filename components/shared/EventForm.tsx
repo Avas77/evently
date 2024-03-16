@@ -15,15 +15,42 @@ import Image from "next/image";
 import "react-datepicker/dist/react-datepicker.css";
 import { Checkbox } from "../ui/checkbox";
 import { Button } from "../ui/button";
+import { useUploadThing } from "@/lib/uploadthing";
+import { useRouter } from "next/navigation";
+import { CreateEvent } from "@/lib/actions/events.actions";
 
-const EventForm = () => {
+interface IProps {
+  userId: string;
+}
+
+const EventForm = ({ userId }: IProps) => {
   const [files, setFiles] = useState<File[]>([]);
   const form = useForm<z.infer<typeof eventSchema>>({
     resolver: zodResolver(eventSchema),
   });
+  const router = useRouter();
+  const { startUpload } = useUploadThing("imageUploader");
 
-  const handleCreateEvent = (values: z.infer<typeof eventSchema>) => {
-    console.log({ values });
+  const handleCreateEvent = async (values: z.infer<typeof eventSchema>) => {
+    let imageUploadedUrl = values.imageUrl;
+    if (files.length > 0) {
+      const uploadedImage = await startUpload(files);
+      if (!uploadedImage) return;
+      imageUploadedUrl = uploadedImage[0].url;
+    }
+    try {
+      const newEvent = await CreateEvent({
+        event: { ...values, imageUrl: imageUploadedUrl },
+        userId,
+        path: "/profile",
+      });
+      if (newEvent) {
+        form.reset();
+        router.replace(`/events/${newEvent._id}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
