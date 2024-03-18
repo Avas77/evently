@@ -6,7 +6,6 @@ import { clerkClient } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  console.log("Hello");
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
@@ -46,6 +45,7 @@ export async function POST(req: Request) {
       "svix-signature": svix_signature,
     }) as WebhookEvent;
   } catch (err) {
+    console.error("Error verifying webhook:", err);
     return new Response("Error occured", {
       status: 400,
     });
@@ -69,6 +69,7 @@ export async function POST(req: Request) {
     };
 
     const newUser = await createUser(user);
+
     if (newUser) {
       await clerkClient.users.updateUserMetadata(id, {
         publicMetadata: {
@@ -76,7 +77,8 @@ export async function POST(req: Request) {
         },
       });
     }
-    return NextResponse.json({ message: "Ok", user: newUser });
+
+    return NextResponse.json({ message: "OK", user: newUser });
   }
 
   if (eventType === "user.updated") {
@@ -90,20 +92,16 @@ export async function POST(req: Request) {
     };
 
     const updatedUser = await updateUser(id, user);
-    return NextResponse.json({
-      message: "Ok",
-      user: updatedUser,
-    });
+
+    return NextResponse.json({ message: "OK", user: updatedUser });
   }
 
   if (eventType === "user.deleted") {
     const { id } = evt.data;
 
     const deletedUser = await deleteUser(id!);
-    return NextResponse.json({
-      message: "Ok",
-      user: deletedUser,
-    });
+
+    return NextResponse.json({ message: "OK", user: deletedUser });
   }
 
   return new Response("", { status: 200 });
